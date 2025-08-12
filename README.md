@@ -45,8 +45,8 @@ This project is MIT licensed - see [LICENSE](LICENSE) file for details.
 
 ## 📬 Contact
 Let's connect! Reach me through:
-- [Instagram]([https://](https://www.instagram.com/rasyid_rlqr))
-- [GitHub]([https://github.com/RasyidRlqr])
+- [Instagram](https://www.instagram.com/rasyid_rlqr)
+- [GitHub](https://github.com/RasyidRlqr)
 - [Email](mailto:rasyidhikwan.com)
 
 ---

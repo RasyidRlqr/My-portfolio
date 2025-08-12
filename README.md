@@ -45,9 +45,9 @@ This project is MIT licensed - see [LICENSE](LICENSE) file for details.
 
 ## 📬 Contact
 Let's connect! Reach me through:
-- [LinkedIn](https://www.linkedin.com/in/naveen-hapuarachchi-7b2aa41b0/)
-- [GitHub](https://github.com/naveenhapuarachchi)
-- [Email](mailto:naveenhapuarachchi1111.com)
+- [Instagram]([https://](https://www.instagram.com/rasyid_rlqr))
+- [GitHub]([https://github.com/RasyidRlqr])
+- [Email](mailto:rasyidhikwan.com)
 
 ---
 

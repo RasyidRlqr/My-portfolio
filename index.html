@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rasyid — Backend & Mobile Developer</title>
+  <meta name="description" content="Premium personal portfolio of Rasyid, Backend & Mobile Developer, featuring glassmorphism aesthetics and custom themes.">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            slate: {
+              950: '#030712',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lenis Scroll CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Styling Overrides for Cursors, Lenis & Custom styles -->
+  <style>
+    /* Custom Scrollbar for modern feel */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #030712;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Lenis Smooth Scroll Configuration */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    /* Glow backdrop styling */
+    .glow-blur {
+      filter: blur(130px);
+      will-change: transform, opacity;
+    }
+
+    /* Custom Cursor Styles for Desktop Only */
+    @media (pointer: fine) {
+      html, body, a, button, input, textarea, select, [role="button"] {
+        cursor: none !important;
+      }
+      .custom-cursor {
+        display: block;
+      }
+    }
+    @media (pointer: coarse) {
+      .custom-cursor {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-500 selection:bg-indigo-500/30 selection:text-indigo-200 antialiased overflow-x-hidden font-sans">
+
+  <!-- Custom Cursor Elements -->
+  <div id="cursor-dot" class="custom-cursor fixed top-0 left-0 w-2.5 h-2.5 bg-indigo-500 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden transition-transform duration-100 ease-out opacity-100"></div>
+  <div id="cursor-outline" class="custom-cursor fixed top-0 left-0 w-9 h-9 border border-indigo-500/40 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden transition-all duration-300 ease-out opacity-100"></div>
+
+  <!-- Ambient Mesh Background Glows -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute -top-[30%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-indigo-500/[0.04] dark:bg-indigo-500/10 glow-blur animate-pulse-slow"></div>
+    <div class="absolute top-[25%] -right-[20%] w-[70vw] h-[70vw] rounded-full bg-violet-600/[0.03] dark:bg-violet-600/8 glow-blur animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute -bottom-[20%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-cyan-500/[0.04] dark:bg-cyan-500/10 glow-blur animate-pulse-slow" style="animation-delay: 4s;"></div>
+  </div>
+
+  <!-- Sticky Glassmorphic Navigation -->
+  <nav class="sticky top-0 z-50 w-full border-b border-black/[0.05] dark:border-white/10 bg-white/40 dark:bg-slate-950/40 backdrop-blur-md transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#home" class="flex items-center gap-2 group">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-all duration-300">
+          <span class="text-white font-extrabold text-lg">R</span>
+        </span>
+        <span class="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">rasyid.</span>
+      </a>
+
+      <!-- Desktop Nav Menu with Shared Indicator -->
+      <div id="nav-container" class="relative hidden md:flex items-center gap-1 bg-black/[0.03] dark:bg-white/5 border border-black/[0.05] dark:border-white/5 rounded-full p-1.5 backdrop-blur-lg">
+        <!-- Vercel-Style Indicator -->
+        <div id="nav-indicator" class="absolute bg-black/5 dark:bg-white/10 rounded-full transition-all duration-300 ease-out pointer-events-none z-0 opacity-0"></div>
+
+        <a href="#home" class="nav-link relative z-10 px-5 py-2 text-sm font-medium rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300" data-section="home">Home</a>
+        <a href="#about" class="nav-link relative z-10 px-5 py-2 text-sm font-medium rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300" data-section="about">About</a>
+        <a href="#projects" class="nav-link relative z-10 px-5 py-2 text-sm font-medium rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300" data-section="projects">Projects</a>
+        <a href="#contact" class="nav-link relative z-10 px-5 py-2 text-sm font-medium rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300" data-section="contact">Contact</a>
+      </div>
+
+      <!-- Action & Toggle buttons -->
+      <div class="hidden md:flex items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="p-2.5 rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-200 transition-all duration-300 backdrop-blur-md" aria-label="Toggle Theme">
+          <i id="theme-toggle-icon" data-lucide="moon" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Hire Me Button -->
+        <a href="#contact" class="px-5 py-2.5 rounded-full text-sm font-semibold bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-slate-900 dark:text-white border border-black/[0.08] dark:border-white/15 hover:border-black/15 dark:hover:border-white/25 transition-all duration-300 backdrop-blur-md shadow-sm dark:shadow-lg dark:shadow-black/20 flex items-center gap-2 group">
+          Hire Me
+          <i data-lucide="arrow-up-right" class="w-4 h-4 text-indigo-600 dark:text-indigo-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"></i>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button & Mobile Toggle Container -->
+      <div class="flex items-center gap-2 md:hidden">
+        <!-- Mobile Theme Toggle -->
+        <button id="theme-toggle-mobile" class="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-200 transition-all duration-300" aria-label="Toggle Theme">
+          <i id="theme-toggle-icon-mobile" data-lucide="moon" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Hamburger Button -->
+        <button id="mobile-menu-btn" class="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-900 dark:text-white focus:outline-none hover:bg-black/10 dark:hover:bg-white/10 transition-colors" aria-label="Toggle Menu">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-slate-950/95 border-b border-black/[0.05] dark:border-white/10 backdrop-blur-xl px-6 py-6 transition-all duration-300 ease-in-out">
+      <div class="flex flex-col gap-4">
+        <a href="#home" class="mobile-nav-link text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white py-2 border-b border-black/[0.03] dark:border-white/5" onclick="toggleMobileMenu()">Home</a>
+        <a href="#about" class="mobile-nav-link text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white py-2 border-b border-black/[0.03] dark:border-white/5" onclick="toggleMobileMenu()">About</a>
+        <a href="#projects" class="mobile-nav-link text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white py-2 border-b border-black/[0.03] dark:border-white/5" onclick="toggleMobileMenu()">Projects</a>
+        <a href="#contact" class="mobile-nav-link text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white py-2" onclick="toggleMobileMenu()">Contact</a>
+        <a href="#contact" class="mt-2 w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 text-center font-bold text-white shadow-lg shadow-indigo-500/20" onclick="toggleMobileMenu()">Hire Me</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-6 transition-all duration-500">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="min-h-[calc(100vh-80px)] flex flex-col justify-center py-16 relative">
+      <!-- Glow background specifically for Hero -->
+      <div class="absolute top-[20%] left-[50%] -translate-x-1/2 w-[35vw] h-[35vw] bg-indigo-500/[0.02] dark:bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <!-- Text Content -->
+        <div class="md:col-span-7 flex flex-col space-y-8 text-left">
+          <!-- Tagline -->
+          <div class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 backdrop-blur-md shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
+            <span class="w-2 h-2 rounded-full bg-indigo-500 absolute"></span>
+            <span class="text-xs font-semibold tracking-wider text-indigo-600 dark:text-indigo-300 uppercase pl-1.5">Available for Freelance & Remote Work</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            Building Scalable <br>
+            <span class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 dark:from-indigo-400 dark:via-violet-400 dark:to-fuchsia-400 bg-clip-text text-transparent">Digital Systems</span>
+          </h1>
+
+          <!-- Description -->
+          <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+            Hi, I'm <span class="text-slate-900 dark:text-white font-semibold">Rasyid</span>. A backend and mobile engineer specialized in designing robust microservices, API solutions, and highly performant mobile applications.
+          </p>
+
+          <!-- Interactive Social Media Icon Bar -->
+          <div class="flex items-center gap-4 text-slate-400 dark:text-slate-400 pt-2">
+            <a href="https://github.com/RasyidRlqr" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md hover:border-cyan-500/30 dark:hover:border-cyan-500/30 text-slate-400 dark:text-slate-400 hover:text-cyan-400 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all duration-[350ms]" aria-label="GitHub">
+              <i class="fab fa-github text-lg"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md hover:border-cyan-500/30 dark:hover:border-cyan-500/30 text-slate-400 dark:text-slate-400 hover:text-cyan-400 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all duration-[350ms]" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in text-lg"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-xl bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 flex items-center justify-center shadow-sm hover:shadow-md hover:border-cyan-500/30 dark:hover:border-cyan-500/30 text-slate-400 dark:text-slate-400 hover:text-cyan-400 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all duration-[350ms]" aria-label="Instagram">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a href="#projects" class="px-8 py-4 rounded-full font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:to-pink-600 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2">
+              Explore Projects
+              <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+            <a href="#contact" class="px-8 py-4 rounded-full font-bold bg-white/40 dark:bg-white/5 hover:bg-white/60 dark:hover:bg-white/10 text-slate-800 dark:text-white border border-black/[0.05] dark:border-white/10 hover:border-black/[0.1] dark:hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 backdrop-blur-md shadow-sm">
+              Let's Talk
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Visual/Card Mockup (Interactive Terminal Design) -->
+        <div class="md:col-span-5 relative w-full flex justify-center items-center">
+          <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-indigo-500 to-purple-500 opacity-10 dark:opacity-20 blur-xl animate-pulse-slow"></div>
+          
+          <!-- Glassmorphic Terminal Card -->
+          <div class="w-full max-w-md relative bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl backdrop-blur-xl shadow-xl dark:shadow-2xl p-6 overflow-hidden animate-float transition-all duration-500">
+            <!-- Window dots -->
+            <div class="flex items-center gap-2 mb-6">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+              <span class="text-xs text-slate-500 dark:text-slate-500 font-mono ml-2">rasyid@workspace:~</span>
+            </div>
+            <!-- Code text -->
+            <pre class="font-mono text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-1 overflow-x-auto">
+<span class="text-indigo-600 dark:text-indigo-400">const</span> developer = {
+  name: <span class="text-emerald-700 dark:text-emerald-300">'Rasyid'</span>,
+  role: <span class="text-emerald-700 dark:text-emerald-300">'Backend & Mobile Developer'</span>,
+  skills: [
+    <span class="text-pink-600 dark:text-pink-400">'Laravel'</span>, <span class="text-pink-600 dark:text-pink-400">'Node.js'</span>,
+    <span class="text-pink-600 dark:text-pink-400">'Flutter'</span>, <span class="text-pink-600 dark:text-pink-400">'MySQL'</span>
+  ],
+  passion: <span class="text-amber-700 dark:text-amber-300">'Aesthetics & Scalability'</span>
+};
+
+<span class="text-slate-400 dark:text-slate-500">// Deploying reliable system</span>
+developer.buildScalableEngine();
+            </pre>
+
+            <!-- Decorative light lines in card -->
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 border-t border-black/[0.05] dark:border-white/5 relative">
+      <div class="absolute -left-[10%] top-[40%] w-[30vw] h-[30vw] bg-violet-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-semibold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase mb-3">About Me</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Crafting Clean Code, Building Seamless Apps</p>
+        <p class="text-slate-600 dark:text-slate-400 mt-4 leading-relaxed font-medium">
+          Saya berfokus pada pengembangan backend server yang efisien serta pembuatan aplikasi mobile yang responsif. Menjaga struktur basis data tetap rapi dan performa API tetap cepat adalah prioritas saya.
+        </p>
+      </div>
+
+      <!-- About Info Grid -->
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1: Experience -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl p-8 backdrop-blur-md hover:border-indigo-500/25 dark:hover:border-indigo-500/25 transition-all duration-500 group hover:shadow-md dark:hover:shadow-[0_0_30px_rgba(99,102,241,0.05)]">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="briefcase" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">My Journey</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            I specialize in structured backend solutions using Laravel and Node.js alongside beautiful multi-platform mobile architectures using Flutter. I build services to handle high traffic and retain optimal performance.
+          </p>
+        </div>
+
+        <!-- Card 2: Tech Stack -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl p-8 backdrop-blur-md hover:border-violet-500/25 dark:hover:border-violet-500/25 transition-all duration-500 group hover:shadow-md dark:hover:shadow-[0_0_30px_rgba(139,92,246,0.05)]">
+          <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="code-2" class="w-6 h-6 text-violet-600 dark:text-violet-400"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">My Stack</h3>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">Laravel</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">Node.js</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">Flutter</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">MySQL</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">PostgreSQL</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">REST APIs</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">Git</span>
+            <span class="px-3 py-1 text-xs rounded-full bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 text-slate-700 dark:text-slate-300">Docker</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Philosophy -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl p-8 backdrop-blur-md hover:border-pink-500/25 dark:hover:border-pink-500/25 transition-all duration-500 group hover:shadow-md dark:hover:shadow-[0_0_30px_rgba(236,72,153,0.05)]">
+          <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="sparkles" class="w-6 h-6 text-pink-600 dark:text-pink-400"></i>
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">My Philosophy</h3>
+          <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+            I prioritize clean documentation, automated checks, and thorough optimization. Building software is more than writing code—it's creating architectures that stand the test of time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="py-24 border-t border-black/[0.05] dark:border-white/5 relative">
+      <div class="absolute right-[5%] top-[10%] w-[35vw] h-[35vw] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-semibold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase mb-3">Portfolio</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Featured Projects</p>
+        <p class="text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+          Explore a curated selection of systems and applications engineered for performance, scalability, and design excellence.
+        </p>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Project 1: Pustalora -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all duration-500 group hover:shadow-[0_0_50px_rgba(99,102,241,0.15)] hover:-translate-y-2 flex flex-col h-full">
+          <!-- Project Image -->
+          <div class="relative overflow-hidden aspect-video bg-slate-900">
+            <img src="./assets/pustalora.jpeg" alt="Pustalora" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-85"></div>
+          </div>
+          <!-- Project Details -->
+          <div class="p-6 flex flex-col flex-grow">
+            <!-- Category & Badge -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20">Digital Library</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">Pustalora</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+              Sistem manajemen peminjaman buku perpustakaan digital (Digital Book Lending System) yang dilengkapi dengan fitur manajemen inventaris, kontrol pengembalian, dan multi-role authentication.
+            </p>
+            <!-- Tech stack tags -->
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Laravel</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">MySQL</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Tailwind CSS</span>
+            </div>
+            <!-- Link -->
+            <a href="https://github.com/RasyidRlqr/pustalora" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors group/link mt-auto">
+              View Project Details
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 2: Travel Jogja -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all duration-500 group hover:shadow-[0_0_50px_rgba(168,85,247,0.15)] hover:-translate-y-2 flex flex-col h-full">
+          <!-- Project Image -->
+          <div class="relative overflow-hidden aspect-video bg-slate-900">
+            <img src="./assets/project2.png" alt="Travel Jogja" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-85"></div>
+          </div>
+          <!-- Project Details -->
+          <div class="p-6 flex flex-col flex-grow">
+            <!-- Category & Badge -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-semibold text-purple-600 dark:text-purple-400 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20">Tourism App</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">Travel Jogja</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+              Aplikasi sistem informasi pariwisata daerah Jogja untuk mempermudah penjelajahan destinasi wisata.
+            </p>
+            <!-- Tech stack tags -->
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Flutter</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Laravel API</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">MySQL</span>
+            </div>
+            <!-- Link -->
+            <a href="https://github.com/RasyidRlqr/travel-jogja" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors group/link mt-auto">
+              View Project Details
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project 3: Web Statistics -->
+        <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-2xl overflow-hidden hover:border-pink-500/30 transition-all duration-500 group hover:shadow-[0_0_50px_rgba(236,72,153,0.15)] hover:-translate-y-2 flex flex-col h-full">
+          <!-- Project Image -->
+          <div class="relative overflow-hidden aspect-video bg-slate-900">
+            <img src="./assets/project3.png" alt="Web Statistics" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent opacity-85"></div>
+          </div>
+          <!-- Project Details -->
+          <div class="p-6 flex flex-col flex-grow">
+            <!-- Category & Badge -->
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-semibold text-pink-600 dark:text-pink-400 px-2.5 py-0.5 rounded-full bg-pink-500/10 border border-pink-500/20">Analytics Dashboard</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-300">Web Statistics</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+              Dashboard visualisasi data performa untuk layanan domain dan hosting. Menampilkan grafik telemetri, log request server, dan statistik utilisasi resource secara real-time.
+            </p>
+            <!-- Tech stack tags -->
+            <div class="flex flex-wrap gap-1.5 mb-6">
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Node.js</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Express</span>
+              <span class="text-xs text-slate-700 dark:text-slate-400 px-2 py-1 rounded bg-black/5 dark:bg-white/5 border border-black/[0.05] dark:border-white/5">Chart.js</span>
+            </div>
+            <!-- Link -->
+            <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400 transition-colors group/link mt-auto">
+              View Project Details
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-24 border-t border-black/[0.05] dark:border-white/5 relative">
+      <div class="absolute -bottom-[10%] left-[50%] -translate-x-1/2 w-[40vw] h-[40vw] bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <!-- Text Left -->
+        <div class="md:col-span-5 flex flex-col space-y-6">
+          <h2 class="text-xs font-semibold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase">Contact</h2>
+          <h3 class="text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">Let's craft something amazing together.</h3>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            Have a project concept, backend design challenges, or need to engineer a premium, high-performance mobile app? Reach out, I'm here to build it.
+          </p>
+
+          <div class="space-y-4 pt-4">
+            <!-- Mail -->
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 flex items-center justify-center">
+                <i data-lucide="mail" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 dark:text-slate-500">Email Me</p>
+                <a href="mailto:rasyidhikwan@gmail.com" class="text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 text-sm font-medium transition-colors">rasyidhikwan@gmail.com</a>
+              </div>
+            </div>
+            <!-- Location -->
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 dark:text-slate-500">Location</p>
+                <p class="text-slate-900 dark:text-white text-sm font-medium">Jakarta, Indonesia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glassmorphic Form Card -->
+        <div class="md:col-span-7">
+          <div class="bg-white/40 dark:bg-white/5 border border-black/[0.05] dark:border-white/10 rounded-3xl p-8 md:p-10 backdrop-blur-lg shadow-xl dark:shadow-2xl relative overflow-hidden transition-all duration-500">
+            <!-- Light Glow -->
+            <div class="absolute -right-24 -top-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <form id="contact-form" class="space-y-6 relative">
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div class="flex flex-col space-y-2">
+                  <label for="name" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Your Name</label>
+                  <input type="text" id="name" required class="bg-white/40 dark:bg-white/5 border border-black/[0.08] dark:border-white/10 hover:border-black/15 dark:hover:border-white/15 focus:border-indigo-500 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 text-sm" placeholder="John Doe">
+                </div>
+                <!-- Email -->
+                <div class="flex flex-col space-y-2">
+                  <label for="email" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Your Email</label>
+                  <input type="email" id="email" required class="bg-white/40 dark:bg-white/5 border border-black/[0.08] dark:border-white/10 hover:border-black/15 dark:hover:border-white/15 focus:border-indigo-500 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 text-sm" placeholder="john@example.com">
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="flex flex-col space-y-2">
+                <label for="subject" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Subject</label>
+                <input type="text" id="subject" required class="bg-white/40 dark:bg-white/5 border border-black/[0.08] dark:border-white/10 hover:border-black/15 dark:hover:border-white/15 focus:border-indigo-500 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 text-sm" placeholder="Let's build a masterpiece">
+              </div>
+
+              <!-- Message -->
+              <div class="flex flex-col space-y-2">
+                <label for="message" class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Message</label>
+                <textarea id="message" rows="4" required class="bg-white/40 dark:bg-white/5 border border-black/[0.08] dark:border-white/10 hover:border-black/15 dark:hover:border-white/15 focus:border-indigo-500 rounded-xl px-4 py-3.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300 text-sm resize-none" placeholder="Hi Rasyid, I have an amazing project..."></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 group">
+                Send Message
+                <i data-lucide="send" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+              </button>
+            </form>
+
+            <!-- Success Message (Glass Toast) -->
+            <div id="toast-success" class="hidden absolute inset-0 bg-white/95 dark:bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 z-10 transition-all duration-500">
+              <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6 animate-bounce">
+                <i data-lucide="check" class="w-8 h-8 text-emerald-500 dark:text-emerald-400"></i>
+              </div>
+              <h4 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">Message Sent!</h4>
+              <p class="text-slate-600 dark:text-slate-400 text-sm max-w-sm">Thank you for reaching out. I've received your message and will get back to you shortly.</p>
+              <button onclick="resetContactForm()" class="mt-8 px-6 py-2.5 rounded-full text-xs font-semibold bg-black/5 border border-black/10 dark:bg-white/5 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-all text-slate-900 dark:text-white">Send another message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-black/[0.05] dark:border-white/5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md py-12 mt-12 transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <!-- Left: Logo & Copyright -->
+      <div class="flex items-center gap-6">
+        <span class="font-extrabold text-lg text-slate-900 dark:text-white">rasyid.</span>
+        <span class="text-xs text-slate-500">© 2026 Rasyid. All rights reserved.</span>
+      </div>
+
+      <!-- Right: Socials -->
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/RasyidRlqr" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/40 dark:bg-white/5 hover:bg-indigo-500/10 border border-black/[0.05] dark:border-white/10 hover:border-indigo-500/20 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="www.linkedin.com/in/ikhwan-rasyid-b9727b396" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/40 dark:bg-white/5 hover:bg-indigo-500/10 border border-black/[0.05] dark:border-white/10 hover:border-indigo-500/20 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://www.instagram.com/rasyid_rlqr/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/40 dark:bg-white/5 hover:bg-indigo-500/10 border border-black/[0.05] dark:border-white/10 hover:border-indigo-500/20 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // 1. Theme Management (Dual-Theme Toggle)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleBtnMobile = document.getElementById('theme-toggle-mobile');
+
+    function updateThemeUI(isDark) {
+      const toggleIcon = document.getElementById('theme-toggle-icon');
+      const toggleIconMobile = document.getElementById('theme-toggle-icon-mobile');
+      
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        if (toggleIcon) toggleIcon.setAttribute('data-lucide', 'sun');
+        if (toggleIconMobile) toggleIconMobile.setAttribute('data-lucide', 'sun');
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (toggleIcon) toggleIcon.setAttribute('data-lucide', 'moon');
+        if (toggleIconMobile) toggleIconMobile.setAttribute('data-lucide', 'moon');
+      }
+      // Re-run lucide to render the updated icons
+      lucide.createIcons();
+    }
+
+    // Initial setup
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialDark = storedTheme === 'dark' || (!storedTheme && systemPrefersDark);
+
+    updateThemeUI(initialDark);
+
+    function toggleTheme() {
+      const isDarkNow = document.documentElement.classList.contains('dark');
+      const newDarkState = !isDarkNow;
+      localStorage.setItem('theme', newDarkState ? 'dark' : 'light');
+      updateThemeUI(newDarkState);
+    }
+
+    if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+    if (themeToggleBtnMobile) themeToggleBtnMobile.addEventListener('click', toggleTheme);
+
+
+    // 2. Interactive Custom Cursor (Dot + Outline Loop)
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+
+    let cursorX = 0;
+    let cursorY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+    let cursorInitialized = false;
+
+    // Position updates on mouse move
+    window.addEventListener('mousemove', (e) => {
+      cursorX = e.clientX;
+      cursorY = e.clientY;
+      
+      if (!cursorInitialized) {
+        cursorDot.classList.remove('hidden');
+        cursorOutline.classList.remove('hidden');
+        cursorX = outlineX = e.clientX;
+        cursorY = outlineY = e.clientY;
+        cursorInitialized = true;
+      }
+      
+      // Position the dot instantly
+      cursorDot.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+    });
+
+    // Elastic Lerp Loop for Outline
+    function animateCursorOutline() {
+      // Lerp math: current + (target - current) * elastic coefficient
+      outlineX += (cursorX - outlineX) * 0.15;
+      outlineY += (cursorY - outlineY) * 0.15;
+      
+      cursorOutline.style.transform = `translate3d(${outlineX}px, ${outlineY}px, 0) translate(-50%, -50%)`;
+      
+      requestAnimationFrame(animateCursorOutline);
+    }
+    requestAnimationFrame(animateCursorOutline);
+
+    // Document-wide cursor hover effects on interactive elements
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('a, button, input, textarea, [role="button"], .group, select')) {
+        cursorOutline.classList.add('scale-[1.6]', 'bg-indigo-500/10', 'border-indigo-500/60');
+        cursorDot.classList.add('scale-50');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('a, button, input, textarea, [role="button"], .group, select')) {
+        cursorOutline.classList.remove('scale-[1.6]', 'bg-indigo-500/10', 'border-indigo-500/60');
+        cursorDot.classList.remove('scale-50');
+      }
+    });
+
+    // Hide custom cursor elements when mouse leaves document viewport
+    document.addEventListener('mouseleave', () => {
+      cursorDot.classList.add('opacity-0');
+      cursorOutline.classList.add('opacity-0');
+    });
+
+    document.addEventListener('mouseenter', () => {
+      cursorDot.classList.remove('opacity-0');
+      cursorOutline.classList.remove('opacity-0');
+    });
+
+
+    // 3. Vercel-Style Live Hover Navigation
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navContainer = document.getElementById('nav-container');
+    const navIndicator = document.getElementById('nav-indicator');
+    let activeLink = null;
+
+    function positionIndicator(link) {
+      if (!link) {
+        navIndicator.style.opacity = '0';
+        return;
+      }
+      navIndicator.style.left = `${link.offsetLeft}px`;
+      navIndicator.style.top = `${link.offsetTop}px`;
+      navIndicator.style.width = `${link.offsetWidth}px`;
+      navIndicator.style.height = `${link.offsetHeight}px`;
+      navIndicator.style.opacity = '1';
+    }
+
+    // Set layout coordinate positions on hover
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        positionIndicator(link);
+      });
+    });
+
+    // Return background focus to active tab on leave
+    navContainer.addEventListener('mouseleave', () => {
+      positionIndicator(activeLink);
+    });
+
+    // Reposition coordinates on viewport resize
+    window.addEventListener('resize', () => {
+      if (activeLink && !navContainer.matches(':hover')) {
+        positionIndicator(activeLink);
+      }
+    });
+
+
+    // 4. Initialize Lucide Icons
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+
+    // 5. Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-like easing curve
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    // Setup Raf Loop for Lenis
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Bind custom anchor link scroll triggers to Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const target = document.querySelector(targetId);
+        
+        if (target) {
+          lenis.scrollTo(target, {
+            offset: -80, // offset for sticky nav
+            duration: 1.5,
+          });
+        }
+      });
+    });
+
+
+    // 6. Navbar scroll effect & Section highlighter
+    const nav = document.querySelector('nav');
+    const sections = document.querySelectorAll('section');
+
+    function handleScrollHighlight() {
+      // Background styling on scroll
+      if (window.scrollY > 50) {
+        nav.classList.add('bg-white/80', 'dark:bg-slate-950/80', 'shadow-md', 'dark:shadow-lg', 'dark:shadow-black/20');
+        nav.classList.remove('bg-white/40', 'dark:bg-slate-950/40');
+      } else {
+        nav.classList.add('bg-white/40', 'dark:bg-slate-950/40');
+        nav.classList.remove('bg-white/80', 'dark:bg-slate-950/80', 'shadow-md', 'dark:shadow-lg', 'dark:shadow-black/20');
+      }
+
+      // Highlight active nav section
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      if (!current) current = 'home';
+
+      navLinks.forEach(link => {
+        link.classList.remove('text-slate-900', 'dark:text-white');
+        link.classList.add('text-slate-600', 'dark:text-slate-300');
+        if (link.getAttribute('data-section') === current) {
+          link.classList.add('text-slate-900', 'dark:text-white');
+          link.classList.remove('text-slate-600', 'dark:text-slate-300');
+          activeLink = link;
+          
+          // Only reposition automatically if mouse is not currently hovering the navbar container
+          if (!navContainer.matches(':hover')) {
+            positionIndicator(activeLink);
+          }
+        }
+      });
+    }
+
+    window.addEventListener('scroll', handleScrollHighlight);
+    // Initial call to set active link and position indicator
+    handleScrollHighlight();
+
+
+    // 7. Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('hidden');
+      // Toggle icon between menu and close (x)
+      const isHidden = mobileMenu.classList.contains('hidden');
+      mobileMenuBtn.innerHTML = isHidden 
+        ? '<i data-lucide="menu" class="w-6 h-6"></i>' 
+        : '<i data-lucide="x" class="w-6 h-6"></i>';
+      lucide.createIcons();
+    }
+    
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+
+    // 8. Contact Form mock submission
+    const form = document.getElementById('contact-form');
+    const toast = document.getElementById('toast-success');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Animate form elements hiding or show toast
+      toast.classList.remove('hidden');
+      toast.classList.add('flex', 'animate-fade-in');
+    });
+
+    function resetContactForm() {
+      form.reset();
+      toast.classList.add('hidden');
+      toast.classList.remove('flex');
+    }
+  </script>
+</body>
+</html>
